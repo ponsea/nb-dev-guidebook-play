@@ -18,5 +18,9 @@ GET     /not-found                  controllers.Default.notFound
 GET     /error                      controllers.Default.error
 GET     /todo                       controllers.Default.todo
 
+GET     /set-session                controllers.HomeController.setSession()
+GET     /show-session               controllers.HomeController.showSession()
+GET     /discard-session            controllers.HomeController.discardSession()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

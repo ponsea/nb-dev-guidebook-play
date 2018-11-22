@@ -42,4 +42,17 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   def reverseRouter() = Action {
     Redirect(routes.HomeController.param("abc"))
   }
+
+  def setSession() = Action { implicit request =>
+    val id = "[user id]"
+    Ok(s"session set. (id -> $id)").addingToSession("id" -> id)
+  }
+
+  def showSession() = Action { request =>
+    Ok(request.session.get("id").toString)
+  }
+
+  def discardSession() = Action { implicit request =>
+    Ok("session discarded.").removingFromSession("id")
+  }
 }
