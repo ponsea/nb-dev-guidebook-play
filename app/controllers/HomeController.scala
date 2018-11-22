@@ -21,4 +21,25 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   def index() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.index())
   }
+
+  def param(id: String) = Action {
+    Ok(id)
+  }
+
+  def typedParam(id: Long) = Action {
+    val result = id * 2
+    Ok(result.toString)
+  }
+
+  def queryParam(id: Option[String]) = Action {
+    Ok(id.toString)
+  }
+
+  def queryParamDefault(id: String) = Action {
+    Ok(id)
+  }
+
+  def reverseRouter() = Action {
+    Redirect(routes.HomeController.param("abc"))
+  }
 }
