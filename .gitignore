@@ -9,3 +9,4 @@ target
 /.ensime
 /.ensime_cache/
 *.swp
+.DS_Store
