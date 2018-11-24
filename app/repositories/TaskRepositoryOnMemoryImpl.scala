@@ -15,7 +15,7 @@ class TaskRepositoryOnMemoryImpl extends TaskRepository {
     Task(TaskId(5), "ねぎ買う", false, UserId(2), dateTime, dateTime, dateTime)
   )
 
-  def find(taskId: TaskId) = {
+  def findById(taskId: TaskId) = {
     tasks.find(_.id == taskId)
   }
 }
