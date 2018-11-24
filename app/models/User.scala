@@ -10,4 +10,4 @@ case class User(id: UserId,
                 createdAt: LocalDateTime,
                 updatedAt: LocalDateTime)
 
-case class UserId(value: Long) extends AnyVal
+case class UserId(value: String) extends AnyVal

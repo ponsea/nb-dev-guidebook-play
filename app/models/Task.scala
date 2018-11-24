@@ -10,4 +10,4 @@ case class Task(id: TaskId,
                 createdAt: LocalDateTime,
                 updatedAt: LocalDateTime)
 
-case class TaskId(value: Long) extends AnyVal
+case class TaskId(value: String) extends AnyVal
