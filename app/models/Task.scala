@@ -6,7 +6,7 @@ case class Task(id: TaskId,
                 name: String,
                 isFinished: Boolean,
                 userId: UserId,
-                deadline: LocalDateTime,
+                deadline: Option[LocalDateTime],
                 createdAt: LocalDateTime,
                 updatedAt: LocalDateTime)
 
