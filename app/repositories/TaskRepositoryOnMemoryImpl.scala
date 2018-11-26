@@ -2,6 +2,7 @@ package repositories
 
 import javax.inject.Singleton
 import java.time.LocalDateTime
+import scala.concurrent.Future
 import models.{Task, TaskId, UserId}
 
 @Singleton()
@@ -16,6 +17,6 @@ class TaskRepositoryOnMemoryImpl extends TaskRepository {
   )
 
   def findById(taskId: TaskId) = {
-    tasks.find(_.id == taskId)
+    Future.successful(tasks.find(_.id == taskId))
   }
 }
