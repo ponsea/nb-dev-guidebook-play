@@ -16,6 +16,8 @@ class TaskRepositoryOnMemoryImpl extends TaskRepository {
     Task(TaskId("5"), "ねぎ買う", false, UserId("2"), Some(dateTime), dateTime, dateTime)
   )
 
+  def findAll() = Future.successful(tasks.toSeq)
+
   def findById(taskId: TaskId) = {
     Future.successful(tasks.find(_.id == taskId))
   }
