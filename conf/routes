@@ -24,6 +24,7 @@ GET     /discard-session            controllers.HomeController.discardSession()
 
 GET     /tasks                      controllers.TaskController.index()
 GET     /tasks/:id                  controllers.TaskController.show(id)
+POST    /tasks                      controllers.TaskController.create()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
