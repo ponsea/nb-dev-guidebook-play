@@ -22,6 +22,7 @@ GET     /set-session                controllers.HomeController.setSession()
 GET     /show-session               controllers.HomeController.showSession()
 GET     /discard-session            controllers.HomeController.discardSession()
 
+GET     /tasks                      controllers.TaskController.index()
 GET     /tasks/:id                  controllers.TaskController.show(id)
 
 # Map static resources from the /public folder to the /assets URL path
