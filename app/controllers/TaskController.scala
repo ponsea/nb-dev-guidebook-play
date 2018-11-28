@@ -13,6 +13,13 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
     implicit ec: ExecutionContext)
     extends AbstractController(cc) {
   import json.TaskWrites._
+
+  def index() = Action.async {
+    taskService.getAll().map { tasks =>
+      Ok(Json.toJson(tasks))
+    }
+  }
+
   def show(id: String) = Action.async {
     taskService.get(id).map { maybeTask: Option[Task] =>
       maybeTask.fold[Result](NotFound) { task: Task =>
