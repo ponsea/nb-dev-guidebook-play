@@ -7,14 +7,13 @@ import repositories.TaskRepository
 import utils.{IdGenerator, SystemDateTime}
 
 @Singleton()
-class TaskService @Inject()(taskRepository: TaskRepository) {
+class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGenerator,
+                                                            sdt: SystemDateTime) {
   def getAll() = taskRepository.findAll()
 
   def get(id: String) = taskRepository.findById(TaskId(id))
 
-  def create(name: String, deadline: Option[LocalDateTime], userId: UserId)(
-      implicit idGen: IdGenerator,
-      sdt: SystemDateTime) = {
+  def create(name: String, deadline: Option[LocalDateTime], userId: UserId) = {
     val newTask = Task(TaskId.newId(), name, false, userId, deadline, sdt.now(), sdt.now())
     taskRepository.save(newTask)
   }
