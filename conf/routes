@@ -22,6 +22,8 @@ GET     /set-session                controllers.HomeController.setSession()
 GET     /show-session               controllers.HomeController.showSession()
 GET     /discard-session            controllers.HomeController.discardSession()
 
+GET     /json-response              controllers.HomeController.jsonResponse()
+
 GET     /tasks                      controllers.TaskController.index()
 GET     /tasks/:id                  controllers.TaskController.show(id)
 POST    /tasks                      controllers.TaskController.create()

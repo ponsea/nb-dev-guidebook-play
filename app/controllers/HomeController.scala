@@ -3,6 +3,7 @@ package controllers
 import javax.inject._
 import play.api._
 import play.api.mvc._
+import play.api.libs.json._
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -54,5 +55,13 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
 
   def discardSession() = Action { implicit request =>
     Ok("session discarded.").removingFromSession("id")
+  }
+
+  def jsonResponse() = Action {
+    val json: JsValue = Json.obj(
+      "name" -> "ike",
+      "age" -> 22
+    )
+    Ok(json)
   }
 }
