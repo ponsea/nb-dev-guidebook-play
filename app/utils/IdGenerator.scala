@@ -1,13 +1,13 @@
 package utils
 
 import java.util.UUID
+import javax.inject.Singleton
 
 trait IdGenerator {
   def generateId(): String
 }
 
-object IdGenerator {
-  implicit val defaultImpl = new IdGenerator {
-    def generateId() = UUID.randomUUID().toString
-  }
+@Singleton()
+class IdGeneratorImpl extends IdGenerator {
+  def generateId() = UUID.randomUUID().toString
 }
