@@ -64,4 +64,9 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     )
     Ok(json)
   }
+
+  def jsonRequest() = Action(parse.json) { request: Request[JsValue] =>
+    val jsonBody: JsValue = request.body
+    Ok(jsonBody)
+  }
 }
