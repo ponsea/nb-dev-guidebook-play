@@ -5,7 +5,7 @@ import scala.concurrent.{Future, ExecutionContext}
 import play.api._
 import play.api.mvc._
 import play.api.libs.json._
-import models.{Task, UserId}
+import models.{Task, TaskId, UserId}
 import services.TaskService
 import json.TaskCreatingInput
 
@@ -22,7 +22,7 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
   }
 
   def show(id: String) = Action.async {
-    taskService.get(id).map { maybeTask: Option[Task] =>
+    taskService.get(TaskId(id)).map { maybeTask: Option[Task] =>
       maybeTask.fold[Result](NotFound) { task: Task =>
         Ok(Json.toJson(task))
       }

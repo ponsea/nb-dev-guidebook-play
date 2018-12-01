@@ -11,7 +11,7 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
                                                             sdt: SystemDateTime) {
   def getAll() = taskRepository.findAll()
 
-  def get(id: String) = taskRepository.findById(TaskId(id))
+  def get(taskId: TaskId) = taskRepository.findById(taskId)
 
   def create(name: String, deadline: Option[LocalDateTime], userId: UserId) = {
     val newTask = Task(TaskId.newId(), name, false, userId, deadline, sdt.now(), sdt.now())
