@@ -20,15 +20,19 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
     taskRepository.save(newTask)
   }
 
+  // HACK: もっと分かりやすい書き方ないかな...
   def update(taskId: TaskId,
              name: Option[String],
              isFinished: Option[Boolean],
              deadline: Option[Option[LocalDateTime]],
              updaterId: UserId): Future[Either[ServiceError, Task]] = {
-    // HACK: もっと分かりやすい書き方ないかな...
-    def f[T](v: T) = Future.successful(v)
+    val notFound: Future[Either[ServiceError, Task]] =
+      Future.successful(Left(TaskNotFound(taskId)))
+    val unauthorized: Future[Either[ServiceError, Task]] =
+      Future.successful(Left(UnauthorizedAction))
+
     taskRepository.findById(taskId).flatMap { maybeTask =>
-      maybeTask.fold(f[Either[ServiceError, Task]](Left(TaskNotFound(taskId)))) { task =>
+      maybeTask.fold(notFound) { task =>
         if (task.canEditBy(updaterId)) {
           val newTask = task.copy(name = name.getOrElse(task.name),
                                   isFinished = isFinished.getOrElse(task.isFinished),
@@ -36,7 +40,7 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
                                   updatedAt = sdt.now())
           taskRepository.save(newTask).map(Right(_))
         } else {
-          f(Left(UnauthorizedAction))
+          unauthorized
         }
       }
     }
