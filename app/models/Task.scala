@@ -10,7 +10,7 @@ case class Task(id: TaskId,
                 deadline: Option[LocalDateTime],
                 createdAt: LocalDateTime,
                 updatedAt: LocalDateTime) {
-  def canUpdate(updaterId: UserId) = this.userId == updaterId
+  def canEditBy(editorId: UserId) = this.userId == editorId
 }
 
 case class TaskId(value: String) extends AnyVal

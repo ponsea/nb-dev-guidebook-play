@@ -29,7 +29,7 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
     def f[T](v: T) = Future.successful(v)
     taskRepository.findById(taskId).flatMap { maybeTask =>
       maybeTask.fold(f[Either[ServiceError, Task]](Left(TaskNotFound(taskId)))) { task =>
-        if (task.canUpdate(updaterId)) {
+        if (task.canEditBy(updaterId)) {
           val newTask = task.copy(name = name.getOrElse(task.name),
                                   isFinished = isFinished.getOrElse(task.isFinished),
                                   deadline = deadline.getOrElse(task.deadline),
