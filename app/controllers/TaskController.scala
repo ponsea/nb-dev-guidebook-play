@@ -8,12 +8,12 @@ import play.api.libs.json._
 import models.{Task, TaskId, UserId}
 import services.TaskService
 import json.TaskCreatingInput
+import json.{TaskWrites, UserWrites}
 
 @Singleton
 class TaskController @Inject()(taskService: TaskService, cc: ControllerComponents)(
     implicit ec: ExecutionContext)
-    extends AbstractController(cc) {
-  import json.TaskWrites._
+    extends AbstractController(cc) with UserWrites with TaskWrites {
 
   def index() = Action.async {
     taskService.getAll().map { tasks =>
