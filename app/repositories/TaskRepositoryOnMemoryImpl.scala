@@ -28,4 +28,9 @@ class TaskRepositoryOnMemoryImpl extends TaskRepository {
     tasks += newTask
     Future.successful(newTask)
   }
+
+  def delete(taskId: TaskId) = {
+    tasks.find(_.id == taskId).foreach(tasks -= _)
+    Future.successful(())
+  }
 }
