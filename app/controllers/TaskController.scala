@@ -66,6 +66,16 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
     }
   }
 
+  def delete(id: String) = Action.async { request =>
+    // TODO: UserIdをセッション情報から取得する
+    taskService.delete(TaskId(id), UserId("1")).map { result =>
+      result match {
+        case Right(_)    => NoContent
+        case Left(error) => appropriateErrorStatusOf(error)
+      }
+    }
+  }
+
   private def appropriateErrorStatusOf(error: ServiceError) = {
     error match {
       case e: TaskNotFound            => NotFound(Json.toJson(error))
