@@ -45,4 +45,21 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
       }
     }
   }
+
+  def delete(taskId: TaskId, deleterId: UserId): Future[Either[ServiceError, Unit]] = {
+    val notFound: Future[Either[ServiceError, Unit]] =
+      Future.successful(Left(TaskNotFound(taskId)))
+    val unauthorized: Future[Either[ServiceError, Unit]] =
+      Future.successful(Left(UnauthorizedAction))
+
+    taskRepository.findById(taskId).flatMap { maybeTask =>
+      maybeTask.fold(notFound) { task =>
+        if (task.canEditBy(deleterId)) {
+          taskRepository.delete(taskId).map(Right(_))
+        } else {
+          unauthorized
+        }
+      }
+    }
+  }
 }
