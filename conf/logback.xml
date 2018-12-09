@@ -38,4 +38,9 @@
     <appender-ref ref="ASYNCSTDOUT" />
   </root>
 
+  <logger name="slick.basic.BasicBackend.action" level="DEBUG" />
+  <logger name="slick.jdbc.JdbcBackend.parameter" level="DEBUG" />
+  <logger name="slick.jdbc.StatementInvoker.result" level="DEBUG" />
+  <logger name="slick.jdbc.JdbcBackend.benchmark" level="DEBUG" />
+
 </configuration>
