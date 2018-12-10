@@ -1,4 +1,4 @@
-package repositories.db
+package persistence.db
 
 import java.sql.Timestamp
 import java.time.LocalDateTime

@@ -1,4 +1,4 @@
-package repositories
+package persistence
 
 import models.{Task, TaskId}
 import scala.concurrent.Future

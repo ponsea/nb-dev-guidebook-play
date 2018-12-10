@@ -1,4 +1,4 @@
-package repositories
+package persistence
 
 import javax.inject.Singleton
 import java.time.LocalDateTime

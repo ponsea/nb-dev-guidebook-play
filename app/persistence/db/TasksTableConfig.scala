@@ -1,4 +1,4 @@
-package repositories.db
+package persistence.db
 
 import play.api.db.slick.HasDatabaseConfigProvider
 import slick.jdbc.JdbcProfile

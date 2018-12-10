@@ -1,6 +1,6 @@
 import com.google.inject.AbstractModule
 import com.google.inject.name.Names
-import repositories.{TaskRepository, TaskRepositorySlickImpl}
+import persistence.{TaskRepository, TaskRepositorySlickImpl}
 import utils.{IdGenerator, SystemDateTime, IdGeneratorImpl, SystemDateTimeImpl}
 
 class Module extends AbstractModule {

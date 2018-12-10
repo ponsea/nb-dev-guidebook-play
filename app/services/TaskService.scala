@@ -4,7 +4,7 @@ import javax.inject.{Inject, Singleton}
 import java.time.LocalDateTime
 import scala.concurrent.{Future, ExecutionContext}
 import models.{Task, TaskId, UserId}
-import repositories.TaskRepository
+import persistence.TaskRepository
 import utils.{IdGenerator, SystemDateTime}
 
 @Singleton()
