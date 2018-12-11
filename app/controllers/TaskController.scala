@@ -37,7 +37,7 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
       case JsSuccess(input, _) => {
         // TODO: UserIdをセッション情報から取得する
         taskService.create(input.name, input.deadline, UserId("1")).map { task =>
-          Ok(Json.toJson(task))
+          Created(Json.toJson(task))
         }
       }
       case JsError(errors) => {
