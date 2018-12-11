@@ -25,11 +25,11 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
              name: Option[String],
              isFinished: Option[Boolean],
              deadline: Option[Option[LocalDateTime]],
-             updaterId: UserId): Future[Either[ServiceError, Task]] = {
-    val notFound: Future[Either[ServiceError, Task]] =
+             updaterId: UserId): Future[Either[TaskError, Task]] = {
+    val notFound: Future[Either[TaskError, Task]] =
       Future.successful(Left(TaskNotFound(taskId)))
-    val unauthorized: Future[Either[ServiceError, Task]] =
-      Future.successful(Left(UnauthorizedAction))
+    val permissionDenied: Future[Either[TaskError, Task]] =
+      Future.successful(Left(TaskPermissionDenied))
 
     taskRepository.findById(taskId).flatMap { maybeTask =>
       maybeTask.fold(notFound) { task =>
@@ -40,24 +40,24 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
                                   updatedAt = sdt.now())
           taskRepository.save(newTask).map(Right(_))
         } else {
-          unauthorized
+          permissionDenied
         }
       }
     }
   }
 
-  def delete(taskId: TaskId, deleterId: UserId): Future[Either[ServiceError, Unit]] = {
-    val notFound: Future[Either[ServiceError, Unit]] =
+  def delete(taskId: TaskId, deleterId: UserId): Future[Either[TaskError, Unit]] = {
+    val notFound: Future[Either[TaskError, Unit]] =
       Future.successful(Left(TaskNotFound(taskId)))
-    val unauthorized: Future[Either[ServiceError, Unit]] =
-      Future.successful(Left(UnauthorizedAction))
+    val permissionDenied: Future[Either[TaskError, Unit]] =
+      Future.successful(Left(TaskPermissionDenied))
 
     taskRepository.findById(taskId).flatMap { maybeTask =>
       maybeTask.fold(notFound) { task =>
         if (task.canEditBy(deleterId)) {
           taskRepository.delete(taskId).map(Right(_))
         } else {
-          unauthorized
+          permissionDenied
         }
       }
     }

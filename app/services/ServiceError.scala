@@ -4,5 +4,6 @@ import models.TaskId
 
 abstract class ServiceError(val message: String, val args: Any*)
 
-case class TaskNotFound(taskId: TaskId) extends ServiceError("error.taskNotFound", taskId)
-case object UnauthorizedAction extends ServiceError("error.unauthorizedAction")
+abstract sealed class TaskError(message: String, args: Any*) extends ServiceError(message, args: _*)
+case class TaskNotFound(taskId: TaskId) extends TaskError("error.task.notFound", taskId)
+case object TaskPermissionDenied extends TaskError("error.task.permissionDenied")

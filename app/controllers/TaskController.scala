@@ -6,7 +6,7 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.json._
 import models.{Task, TaskId, UserId}
-import services.{TaskService, ServiceError, TaskNotFound, UnauthorizedAction}
+import services.{TaskService, TaskError, TaskNotFound, TaskPermissionDenied}
 import json._
 
 @Singleton
@@ -76,11 +76,10 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
     }
   }
 
-  private def appropriateErrorStatusOf(error: ServiceError) = {
+  private def appropriateErrorStatusOf(error: TaskError) = {
     error match {
-      case e: TaskNotFound            => NotFound(Json.toJson(error))
-      case e: UnauthorizedAction.type => Forbidden(Json.toJson(error))
-      case e                          => BadRequest(Json.toJson(error))
+      case _: TaskNotFound              => NotFound(Json.toJson(error))
+      case _: TaskPermissionDenied.type => Forbidden(Json.toJson(error))
     }
   }
 }
