@@ -10,8 +10,9 @@ import services.{TaskService, TaskError, TaskNotFound, TaskPermissionDenied}
 import json._
 
 @Singleton
-class TaskController @Inject()(taskService: TaskService, cc: ControllerComponents)(
-    implicit ec: ExecutionContext)
+class TaskController @Inject()(taskService: TaskService,
+                               authAction: AuthAction,
+                               cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AbstractController(cc)
     with UserWrites
     with TaskWrites
@@ -31,12 +32,11 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
     }
   }
 
-  def create() = Action.async(parse.json) { request: Request[JsValue] =>
+  def create() = authAction.async(parse.json) { request: AuthRequest[JsValue] =>
     val inputResult: JsResult[TaskCreatingInput] = request.body.validate[TaskCreatingInput]
     inputResult match {
       case JsSuccess(input, _) => {
-        // TODO: UserIdをセッション情報から取得する
-        taskService.create(input.name, input.deadline, UserId("1")).map { task =>
+        taskService.create(input.name, input.deadline, request.userId).map { task =>
           Created(Json.toJson(task))
         }
       }
@@ -46,13 +46,12 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
     }
   }
 
-  def update(id: String) = Action.async(parse.json) { request =>
+  def update(id: String) = authAction.async(parse.json) { request =>
     val inputResult = request.body.validate[TaskUpdatingInput]
     inputResult match {
       case JsSuccess(input, _) => {
-        // TODO: UserIdをセッション情報から取得する
         taskService
-          .update(TaskId(id), input.name, input.isFinished, input.deadline, UserId("1"))
+          .update(TaskId(id), input.name, input.isFinished, input.deadline, request.userId)
           .map { result =>
             result match {
               case Right(task) => Ok(Json.toJson(task))
@@ -66,9 +65,8 @@ class TaskController @Inject()(taskService: TaskService, cc: ControllerComponent
     }
   }
 
-  def delete(id: String) = Action.async { request =>
-    // TODO: UserIdをセッション情報から取得する
-    taskService.delete(TaskId(id), UserId("1")).map { result =>
+  def delete(id: String) = authAction.async { request =>
+    taskService.delete(TaskId(id), request.userId).map { result =>
       result match {
         case Right(_)    => NoContent
         case Left(error) => appropriateErrorStatusOf(error)
