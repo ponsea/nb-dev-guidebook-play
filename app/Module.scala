@@ -9,5 +9,6 @@ class Module extends AbstractModule {
     bind(classOf[TaskRepository]).to(classOf[TaskRepositorySlickImpl])
     bind(classOf[IdGenerator]).to(classOf[IdGeneratorImpl])
     bind(classOf[SystemDateTime]).to(classOf[SystemDateTimeImpl])
+    bind(classOf[Crypto]).to(classOf[CryptoImpl])
   }
 }
