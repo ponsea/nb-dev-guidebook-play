@@ -29,4 +29,8 @@ class AuthController @Inject()(authService: AuthService, cc: ControllerComponent
       }
     )
   }
+
+  def deleteToken = Action { implicit request =>
+    NoContent.withNewSession
+  }
 }
