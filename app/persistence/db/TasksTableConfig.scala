@@ -1,12 +1,12 @@
 package persistence.db
 
-import play.api.db.slick.HasDatabaseConfigProvider
+import play.api.db.slick.HasDatabaseConfig
 import slick.jdbc.JdbcProfile
 import java.time.LocalDateTime
 import models.{Task, TaskId, UserId}
 
 trait TasksTableConfig extends ColumnTypeMapping {
-  self: HasDatabaseConfigProvider[JdbcProfile] =>
+  self: HasDatabaseConfig[JdbcProfile] =>
   import profile.api._
 
   class TasksTable(tag: Tag) extends Table[Task](tag, "tasks") {

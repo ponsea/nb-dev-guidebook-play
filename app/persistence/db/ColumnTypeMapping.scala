@@ -2,11 +2,11 @@ package persistence.db
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
-import play.api.db.slick.HasDatabaseConfigProvider
+import play.api.db.slick.HasDatabaseConfig
 import slick.jdbc.JdbcProfile
 import models.{UserId, TaskId}
 
-private[db] trait ColumnTypeMapping { self: HasDatabaseConfigProvider[JdbcProfile] =>
+private[db] trait ColumnTypeMapping { self: HasDatabaseConfig[JdbcProfile] =>
   import profile.api._
 
   implicit val localDateTimeMapper = MappedColumnType.base[LocalDateTime, Timestamp](
