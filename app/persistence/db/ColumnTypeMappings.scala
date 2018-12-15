@@ -6,7 +6,7 @@ import play.api.db.slick.HasDatabaseConfig
 import slick.jdbc.JdbcProfile
 import models.{UserId, TaskId}
 
-private[db] trait ColumnTypeMapping { self: HasDatabaseConfig[JdbcProfile] =>
+private[db] trait ColumnTypeMappings { self: HasDatabaseConfig[JdbcProfile] =>
   import profile.api._
 
   implicit val localDateTimeMapper = MappedColumnType.base[LocalDateTime, Timestamp](

@@ -5,7 +5,7 @@ import slick.jdbc.JdbcProfile
 import java.time.LocalDateTime
 import models.{Task, TaskId, UserId}
 
-trait TasksTableConfig extends ColumnTypeMapping {
+trait TasksTableConfig extends ColumnTypeMappings {
   self: HasDatabaseConfig[JdbcProfile] =>
   import profile.api._
 
