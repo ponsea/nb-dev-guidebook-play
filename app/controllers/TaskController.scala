@@ -32,45 +32,33 @@ class TaskController @Inject()(taskService: TaskService,
     }
   }
 
-  def create() = authAction.async(parse.json) { request: AuthRequest[JsValue] =>
-    val inputResult: JsResult[TaskCreatingInput] = request.body.validate[TaskCreatingInput]
-    inputResult match {
-      case JsSuccess(input, _) => {
-        taskService.create(input.name, input.deadline, request.userId).map { task =>
-          Created(Json.toJson(task))
-        }
-      }
-      case JsError(errors) => {
-        Future.successful(BadRequest(JsError.toJson(errors)))
+  def create() = authAction.async(parse.json) { implicit request =>
+    validatedJson[TaskCreatingInput] { input =>
+      taskService.create(input.name, input.deadline, request.userId).map { task =>
+        Created(Json.toJson(task))
       }
     }
   }
 
-  def update(id: String) = authAction.async(parse.json) { request =>
-    val inputResult = request.body.validate[TaskUpdatingInput]
-    inputResult match {
-      case JsSuccess(input, _) => {
-        taskService
-          .update(TaskId(id), input.name, input.isFinished, input.deadline, request.userId)
-          .map { result =>
-            result match {
-              case Right(task) => Ok(Json.toJson(task))
-              case Left(error) => appropriateErrorStatusOf(error)
-            }
-          }
-      }
-      case JsError(errors) => {
-        Future.successful(BadRequest(JsError.toJson(errors)))
-      }
+  def update(id: String) = authAction.async(parse.json) { implicit request =>
+    validatedJson[TaskUpdatingInput] { input =>
+      taskService
+        .update(TaskId(id), input.name, input.isFinished, input.deadline, request.userId)
+        .map {
+          _.fold(
+            error => appropriateErrorStatusOf(error),
+            task => Ok(Json.toJson(task))
+          )
+        }
     }
   }
 
   def delete(id: String) = authAction.async { request =>
-    taskService.delete(TaskId(id), request.userId).map { result =>
-      result match {
-        case Right(_)    => NoContent
-        case Left(error) => appropriateErrorStatusOf(error)
-      }
+    taskService.delete(TaskId(id), request.userId).map {
+      _.fold(
+        error => appropriateErrorStatusOf(error),
+        _ => NoContent
+      )
     }
   }
 
