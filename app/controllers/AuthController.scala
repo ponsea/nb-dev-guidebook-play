@@ -14,20 +14,14 @@ class AuthController @Inject()(authService: AuthService, cc: ControllerComponent
     extends AbstractController(cc) {
 
   def createToken = Action.async(parse.json) { implicit request =>
-    val inputResult = request.body.validate[TokenCreatingInput]
-    inputResult.fold(
-      error => {
-        Future.successful(BadRequest(JsError.toJson(error)))
-      },
-      input => {
-        authService.authenticate(input.email, input.password).map {
-          _.fold[Result](Unauthorized(Json.obj("message" -> "email or password was incorrect"))) {
-            token =>
-              Ok(Json.obj("message" -> "added token to Cookie")).withSession(token)
-          }
+    validatedJson[TokenCreatingInput] { input =>
+      authService.authenticate(input.email, input.password).map {
+        _.fold[Result](Unauthorized(Json.obj("message" -> "email or password was incorrect"))) {
+          token =>
+            Ok(Json.obj("message" -> "added token to Cookie")).withSession(token)
         }
       }
-    )
+    }
   }
 
   def deleteToken = Action { implicit request =>
