@@ -31,14 +31,12 @@ class TaskRepositorySlickImpl @Inject()(protected val dbConfigProvider: Database
     tasks.filter(_.id === taskId).result.headOption
   }
 
-  def save(task: Task) = {
-    val action = tasks.insertOrUpdate(task)
-    db.run(action).map(_ => task)
+  def save(task: Task) = db.run {
+    tasks.insertOrUpdate(task).map(_ => task)
   }
 
-  def delete(taskId: TaskId) = {
-    val action = tasks.filter(_.id === taskId).delete
-    db.run(action).map(_ => ())
+  def delete(taskId: TaskId) = db.run {
+    tasks.filter(_.id === taskId).delete.map(_ => ())
   }
 
   // 型注釈つけて分かりやすくした場合 ----------------------
