@@ -46,7 +46,7 @@ class TaskController @Inject()(taskService: TaskService,
         .update(TaskId(id), input.name, input.isFinished, input.deadline, request.userId)
         .map {
           _.fold(
-            error => appropriateErrorStatusOf(error),
+            error => appropriateErrorResponseOf(error),
             task => Ok(Json.toJson(task))
           )
         }
@@ -56,13 +56,13 @@ class TaskController @Inject()(taskService: TaskService,
   def delete(id: String) = authAction.async { request =>
     taskService.delete(TaskId(id), request.userId).map {
       _.fold(
-        error => appropriateErrorStatusOf(error),
+        error => appropriateErrorResponseOf(error),
         _ => NoContent
       )
     }
   }
 
-  private def appropriateErrorStatusOf(error: TaskError) = {
+  private def appropriateErrorResponseOf(error: TaskError) = {
     error match {
       case _: TaskNotFound              => NotFound(Json.toJson(error))
       case _: TaskPermissionDenied.type => Forbidden(Json.toJson(error))
