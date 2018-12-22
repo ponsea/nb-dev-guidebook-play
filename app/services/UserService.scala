@@ -13,4 +13,8 @@ class UserService @Inject()(userRepository: UserRepository)(implicit idGen: IdGe
                                                             crypto: Crypto,
                                                             ec: ExecutionContext) {
   def getAll(): Future[Seq[User]] = userRepository.findAll()
+
+  def get(userId: UserId): Future[Option[User]] = {
+    userRepository.findById(userId)
+  }
 }
