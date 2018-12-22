@@ -21,4 +21,10 @@ class UserController @Inject()(userService: UserService,
       Ok(Json.toJson(users))
     }
   }
+
+  def show(id: String) = Action.async {
+    userService.get(UserId(id)).map {
+      _.fold[Result](NotFound)(user => Ok(Json.toJson(user)))
+    }
+  }
 }
