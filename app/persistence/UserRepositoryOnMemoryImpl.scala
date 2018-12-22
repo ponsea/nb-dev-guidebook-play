@@ -31,6 +31,8 @@ class UserRepositoryOnMemoryImpl extends UserRepository {
     ),
   )
 
+  def findAll() = Future.successful(users.toSeq)
+
   def findByEmail(email: String) = {
     Future.successful(users.find(_.email == email))
   }
