@@ -11,7 +11,7 @@ case class TaskUpdatingInput(name: Option[String],
 
 object TaskUpdatingInput {
   implicit val reads = (
-    (JsPath \ "name").readNullable[String](minLength[String](1) keepAnd maxLength[String](256))
+    (JsPath \ "name").readNullable[String](minLength[String](1) keepAnd maxLength[String](255))
       and (JsPath \ "isFinished").readNullable[Boolean]
       and (JsPath \ "deadline").readOptional[LocalDateTime]
   )(apply _)

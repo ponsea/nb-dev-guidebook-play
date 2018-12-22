@@ -9,7 +9,7 @@ case class TaskCreatingInput(name: String, deadline: Option[LocalDateTime])
 
 object TaskCreatingInput {
   implicit val reads = (
-    (JsPath \ "name").read[String](minLength[String](1) keepAnd maxLength[String](256)) and
+    (JsPath \ "name").read[String](minLength[String](1) keepAnd maxLength[String](255)) and
       (JsPath \ "deadline").readNullable[LocalDateTime]
   )(apply _)
 }
