@@ -9,4 +9,5 @@ trait UserRepository {
   def findByEmail(email: String): Future[Option[User]]
   def emailExists(email: String): Future[Boolean]
   def save(user: User): Future[User]
+  def delete(userId: UserId): Future[Unit]
 }

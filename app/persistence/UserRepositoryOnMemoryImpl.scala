@@ -50,4 +50,9 @@ class UserRepositoryOnMemoryImpl extends UserRepository {
     users += newUser
     Future.successful(newUser)
   }
+
+  def delete(userId: UserId) = {
+    users.find(_.id == userId).foreach(users -= _)
+    Future.successful(())
+  }
 }
