@@ -1,6 +1,7 @@
 package models
 
 import java.time.LocalDateTime
+import utils.IdGenerator
 
 case class User(id: UserId,
                 name: String,
@@ -11,3 +12,7 @@ case class User(id: UserId,
                 updatedAt: LocalDateTime)
 
 case class UserId(value: String) extends AnyVal
+
+object UserId {
+  def newId()(implicit idGen: IdGenerator) = UserId(idGen.generateId())
+}
