@@ -33,6 +33,10 @@ class UserRepositoryOnMemoryImpl extends UserRepository {
 
   def findAll() = Future.successful(users.toSeq)
 
+  def findById(userId: UserId) = {
+    Future.successful(users.find(_.id == userId))
+  }
+
   def findByEmail(email: String) = {
     Future.successful(users.find(_.email == email))
   }
