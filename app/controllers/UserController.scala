@@ -6,7 +6,7 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.json._
 import models.{User, UserId}
-import services.UserService
+import services._
 import json._
 
 @Singleton
@@ -37,6 +37,23 @@ class UserController @Inject()(userService: UserService,
           user => Created(Json.toJson(user))
         )
       }
+    }
+  }
+
+  def delete(id: String) = authAction.async { implicit request =>
+    userService.delete(UserId(id), request.userId).map {
+      _.fold(
+        error => appropriateErrorResponseOf(error),
+        _ => NoContent
+      )
+    }
+  }
+
+  private def appropriateErrorResponseOf(error: UserError) = {
+    error match {
+      case _: UserNotFound              => NotFound(Json.toJson(error))
+      case _: UserPermissionDenied.type => Forbidden(Json.toJson(error))
+      case _: UserEmailDuplicated       => BadRequest(Json.toJson(error))
     }
   }
 }
