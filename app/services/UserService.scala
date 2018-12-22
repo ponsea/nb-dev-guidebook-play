@@ -32,4 +32,21 @@ class UserService @Inject()(userRepository: UserRepository)(implicit idGen: IdGe
       }
     }
   }
+
+  def delete(userId: UserId, deleterId: UserId): Future[Either[UserError, Unit]] = {
+    val notFound: Future[Either[UserError, Unit]] =
+      Future.successful(Left(UserNotFound(userId)))
+    val permissionDenied: Future[Either[UserError, Unit]] =
+      Future.successful(Left(UserPermissionDenied))
+
+    userRepository.findById(userId).flatMap { maybeUser =>
+      maybeUser.fold(notFound) { user =>
+        if (user.canEditBy(deleterId)) {
+          userRepository.delete(userId).map(Right(_))
+        } else {
+          permissionDenied
+        }
+      }
+    }
+  }
 }
