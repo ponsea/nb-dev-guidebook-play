@@ -40,4 +40,10 @@ class UserRepositoryOnMemoryImpl extends UserRepository {
   def findByEmail(email: String) = {
     Future.successful(users.find(_.email == email))
   }
+
+  def save(newUser: User) = {
+    users.find(_.id == newUser.id).foreach(old => users -= old)
+    users += newUser
+    Future.successful(newUser)
+  }
 }
