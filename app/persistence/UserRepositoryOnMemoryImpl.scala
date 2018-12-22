@@ -41,6 +41,10 @@ class UserRepositoryOnMemoryImpl extends UserRepository {
     Future.successful(users.find(_.email == email))
   }
 
+  def emailExists(email: String) = {
+    Future.successful(users.exists(_.email == email))
+  }
+
   def save(newUser: User) = {
     users.find(_.id == newUser.id).foreach(old => users -= old)
     users += newUser
