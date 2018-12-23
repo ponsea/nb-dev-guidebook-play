@@ -15,10 +15,10 @@ trait TasksTableConfig extends ColumnTypeMappings {
     def isFinished = column[Boolean]("is_finished")
     def userId = column[UserId]("user_id")
     def deadline = column[Option[LocalDateTime]]("deadline")
-    def updatedAt = column[LocalDateTime]("updated_at")
     def createdAt = column[LocalDateTime]("created_at")
+    def updatedAt = column[LocalDateTime]("updated_at")
 
     def * =
-      (id, name, isFinished, userId, deadline, updatedAt, createdAt) <> (Task.tupled, Task.unapply)
+      (id, name, isFinished, userId, deadline, createdAt, updatedAt) <> (Task.tupled, Task.unapply)
   }
 }
