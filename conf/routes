@@ -35,6 +35,7 @@ POST    /auth/token                 controllers.AuthController.createToken()
 DELETE  /auth/token                 controllers.AuthController.deleteToken()
 
 GET     /users                      controllers.UserController.index()
+GET     /users/me                   controllers.UserController.showMyself()
 GET     /users/:id                  controllers.UserController.show(id)
 POST    /users                      controllers.UserController.create()
 DELETE  /users/:id                  controllers.UserController.delete(id)

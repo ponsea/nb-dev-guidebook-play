@@ -32,6 +32,15 @@ class UserController @Inject()(userService: UserService,
     }
   }
 
+  def showMyself() = authAction.async { request =>
+    userService.get(request.userId).map {
+      _.fold(
+        error => appropriateErrorResponseOf(error),
+        user => Ok(Json.toJson(user)(privateUserWrites))
+      )
+    }
+  }
+
   def create() = Action.async(parse.json) { implicit request =>
     validatedJson[UserCreatingInput] { input =>
       userService.create(input.name, input.email, input.password).map {
