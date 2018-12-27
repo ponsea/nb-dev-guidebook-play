@@ -25,10 +25,11 @@ class TaskController @Inject()(taskService: TaskService,
   }
 
   def show(id: String) = Action.async {
-    taskService.get(TaskId(id)).map { maybeTask: Option[Task] =>
-      maybeTask.fold[Result](NotFound) { task: Task =>
-        Ok(Json.toJson(task))
-      }
+    taskService.get(TaskId(id)).map {
+      _.fold(
+        error => appropriateErrorResponseOf(error),
+        task => Ok(Json.toJson(task))
+      )
     }
   }
 

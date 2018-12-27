@@ -13,7 +13,9 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
                                                             ec: ExecutionContext) {
   def getAll(): Future[Seq[Task]] = taskRepository.findAll()
 
-  def get(taskId: TaskId): Future[Option[Task]] = taskRepository.findById(taskId)
+  def get(taskId: TaskId): Future[Either[TaskError, Task]] = {
+    taskRepository.findById(taskId).map(_.toRight(TaskNotFound(taskId)))
+  }
 
   def create(name: String, deadline: Option[LocalDateTime], userId: UserId): Future[Task] = {
     val newTask = Task(TaskId.newId(), name, false, userId, deadline, sdt.now(), sdt.now())
