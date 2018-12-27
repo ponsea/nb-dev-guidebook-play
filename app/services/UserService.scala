@@ -14,8 +14,8 @@ class UserService @Inject()(userRepository: UserRepository)(implicit idGen: IdGe
                                                             ec: ExecutionContext) {
   def getAll(): Future[Seq[User]] = userRepository.findAll()
 
-  def get(userId: UserId): Future[Option[User]] = {
-    userRepository.findById(userId)
+  def get(userId: UserId): Future[Either[UserError, User]] = {
+    userRepository.findById(userId).map(_.toRight(UserNotFound(userId)))
   }
 
   def create(name: String, email: String, password: String): Future[Either[UserError, User]] = {
