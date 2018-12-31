@@ -4,26 +4,26 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET     /                              controllers.HomeController.index
 
-GET     /param/:id                  controllers.HomeController.param(id)
-GET     /typed-param/:id            controllers.HomeController.typedParam(id: Long)
-GET     /query-param                controllers.HomeController.queryParam(id: Option[String])
-GET     /query-param-default        controllers.HomeController.queryParamDefault(id ?= "default value")
+GET     /param/:id                     controllers.HomeController.param(id)
+GET     /typed-param/:id               controllers.HomeController.typedParam(id: Long)
+GET     /query-param                   controllers.HomeController.queryParam(id: Option[String])
+GET     /query-param-default           controllers.HomeController.queryParamDefault(id ?= "default value")
 
-GET     /reverse-router             controllers.HomeController.reverseRouter()
+GET     /reverse-router                controllers.HomeController.reverseRouter()
 
-GET     /redirect                   controllers.Default.redirect(to = "https://www.playframework.com/")
-GET     /not-found                  controllers.Default.notFound
-GET     /error                      controllers.Default.error
-GET     /todo                       controllers.Default.todo
+GET     /redirect                      controllers.Default.redirect(to = "https://www.playframework.com/")
+GET     /not-found                     controllers.Default.notFound
+GET     /error                         controllers.Default.error
+GET     /todo                          controllers.Default.todo
 
-GET     /set-session                controllers.HomeController.setSession()
-GET     /show-session               controllers.HomeController.showSession()
-GET     /discard-session            controllers.HomeController.discardSession()
+GET     /set-session                   controllers.HomeController.setSession()
+GET     /show-session                  controllers.HomeController.showSession()
+GET     /discard-session               controllers.HomeController.discardSession()
 
-GET     /json-response              controllers.HomeController.jsonResponse()
-POST     /json-request               controllers.HomeController.jsonRequest()
+GET     /json-response                 controllers.HomeController.jsonResponse()
+POST    /json-request                  controllers.HomeController.jsonRequest()
 
 GET     /v1/tasks                      controllers.TaskController.index()
 GET     /v1/tasks/:id                  controllers.TaskController.show(id)
@@ -41,4 +41,4 @@ POST    /v1/users                      controllers.UserController.create()
 DELETE  /v1/users/:id                  controllers.UserController.delete(id)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                  controllers.Assets.versioned(path="/public", file: Asset)
