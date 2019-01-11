@@ -30,10 +30,9 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
              updaterId: UserId): Future[Either[TaskError, Task]] = {
     def doUpdate(task: Task) = {
       if (task.canEditBy(updaterId)) {
-        val updatedTask = task.copy(name = name.getOrElse(task.name),
-                                    isFinished = isFinished.getOrElse(task.isFinished),
-                                    deadline = deadline.getOrElse(task.deadline),
-                                    updatedAt = sdt.now())
+        val updatedTask = task.updated(name.getOrElse(task.name),
+                                       isFinished.getOrElse(task.isFinished),
+                                       deadline.getOrElse(task.deadline))
         taskRepository.save(updatedTask).map(Right(_))
       } else {
         Future.successful(Left(TaskPermissionDenied))
