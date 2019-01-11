@@ -28,23 +28,23 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
              isFinished: Option[Boolean],
              deadline: Option[Option[LocalDateTime]],
              updaterId: UserId): Future[Either[TaskError, Task]] = {
-    val notFound: Future[Either[TaskError, Task]] =
-      Future.successful(Left(TaskNotFound(taskId)))
-    val permissionDenied: Future[Either[TaskError, Task]] =
-      Future.successful(Left(TaskPermissionDenied))
-
-    taskRepository.findById(taskId).flatMap { maybeTask =>
-      maybeTask.fold(notFound) { task =>
-        if (task.canEditBy(updaterId)) {
-          val newTask = task.copy(name = name.getOrElse(task.name),
-                                  isFinished = isFinished.getOrElse(task.isFinished),
-                                  deadline = deadline.getOrElse(task.deadline),
-                                  updatedAt = sdt.now())
-          taskRepository.save(newTask).map(Right(_))
-        } else {
-          permissionDenied
-        }
+    def doUpdate(task: Task) = {
+      if (task.canEditBy(updaterId)) {
+        val updatedTask = task.copy(name = name.getOrElse(task.name),
+                                    isFinished = isFinished.getOrElse(task.isFinished),
+                                    deadline = deadline.getOrElse(task.deadline),
+                                    updatedAt = sdt.now())
+        taskRepository.save(updatedTask).map(Right(_))
+      } else {
+        Future.successful(Left(TaskPermissionDenied))
       }
+    }
+
+    get(taskId).flatMap {
+      _.fold(
+        notFound => Future.successful(Left(notFound)),
+        task => doUpdate(task)
+      )
     }
   }
 
