@@ -43,4 +43,6 @@
   <logger name="slick.jdbc.StatementInvoker.result" level="DEBUG" />
   <logger name="slick.jdbc.JdbcBackend.benchmark" level="DEBUG" />
 
+  <!-- <logger name="controllers" level="DEBUG" /> -->
+
 </configuration>
