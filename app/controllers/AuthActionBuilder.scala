@@ -16,7 +16,7 @@ class AuthRequest[A](val userId: UserId, val messagesApi: MessagesApi, request: 
     extends WrappedRequest[A](request)
     with AuthRequestHeader
 
-class AuthAction @Inject()(
+class AuthActionBuilder @Inject()(
     val parser: BodyParsers.Default,
     messagesApi: MessagesApi,
     authService: AuthService)(implicit val executionContext: ExecutionContext)

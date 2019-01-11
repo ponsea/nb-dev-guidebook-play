@@ -11,7 +11,7 @@ import json._
 
 @Singleton
 class TaskController @Inject()(taskService: TaskService,
-                               authAction: AuthAction,
+                               authAction: AuthActionBuilder,
                                cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AbstractController(cc)
     with UserWrites
