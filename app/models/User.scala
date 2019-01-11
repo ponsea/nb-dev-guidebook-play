@@ -1,7 +1,7 @@
 package models
 
 import java.time.LocalDateTime
-import utils.IdGenerator
+import utils.{IdGenerator, Crypto}
 
 case class User(id: UserId,
                 name: String,
@@ -10,7 +10,11 @@ case class User(id: UserId,
                 salt: String,
                 createdAt: LocalDateTime,
                 updatedAt: LocalDateTime) {
-  def canEditBy(editorId: UserId) = this.id == editorId
+  def canEditBy(editorId: UserId): Boolean = this.id == editorId
+
+  def passwordEquals(password: String)(implicit crypto: Crypto): Boolean = {
+    this.hashedPassword == crypto.digest(password + this.salt)
+  }
 }
 
 case class UserId(value: String) extends AnyVal
