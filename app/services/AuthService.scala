@@ -7,8 +7,8 @@ import persistence.UserRepository
 import models.User
 
 @Singleton()
-class AuthService @Inject()(userRepository: UserRepository, crypto: Crypto)(
-    implicit ec: ExecutionContext) {
+class AuthService @Inject()(userRepository: UserRepository)(implicit crypto: Crypto,
+                                                            ec: ExecutionContext) {
 
   type SessionToken = (String, String) // SESSION_KEY -> "<< user id >>"
 
@@ -17,7 +17,7 @@ class AuthService @Inject()(userRepository: UserRepository, crypto: Crypto)(
   def authenticate(email: String, password: String): Future[Option[SessionToken]] = {
     userRepository.findByEmail(email).map {
       _.flatMap { user =>
-        if (user.hashedPassword == crypto.digest(password + user.salt))
+        if (user.passwordEquals(password))
           Some(SESSION_KEY -> user.id.value)
         else
           None
