@@ -42,7 +42,7 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
     get(taskId).flatMap {
       _.fold(
         notFound => Future.successful(Left(notFound)),
-        task => doUpdate(task)
+        doUpdate
       )
     }
   }
@@ -58,7 +58,7 @@ class TaskService @Inject()(taskRepository: TaskRepository)(implicit idGen: IdGe
     get(taskId).flatMap {
       _.fold(
         notFound => Future.successful(Left(notFound)),
-        task => doDelete(task)
+        doDelete
       )
     }
   }
