@@ -26,7 +26,7 @@ class UserController @Inject()(userService: UserService,
   def show(id: String) = Action.async {
     userService.get(UserId(id)).map {
       _.fold(
-        error => appropriateErrorResponseOf(error),
+        handleError,
         user => Ok(Json.toJson(user))
       )
     }
@@ -35,7 +35,7 @@ class UserController @Inject()(userService: UserService,
   def showMyself() = authAction.async { request =>
     userService.get(request.userId).map {
       _.fold(
-        error => appropriateErrorResponseOf(error),
+        handleError,
         user => Ok(Json.toJson(user)(privateUserWrites))
       )
     }
@@ -55,13 +55,13 @@ class UserController @Inject()(userService: UserService,
   def delete(id: String) = authAction.async { implicit request =>
     userService.delete(UserId(id), request.userId).map {
       _.fold(
-        error => appropriateErrorResponseOf(error),
+        handleError,
         _ => NoContent
       )
     }
   }
 
-  private def appropriateErrorResponseOf(error: UserError) = {
+  private def handleError(error: UserError) = {
     error match {
       case _: UserNotFound              => NotFound(Json.toJson(error))
       case _: UserPermissionDenied.type => Forbidden(Json.toJson(error))
