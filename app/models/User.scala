@@ -3,13 +3,13 @@ package models
 import java.time.LocalDateTime
 import utils.{IdGenerator, Crypto}
 
-case class User(id: UserId,
-                name: String,
-                email: String,
-                hashedPassword: String,
-                salt: String,
-                createdAt: LocalDateTime,
-                updatedAt: LocalDateTime) {
+case class User(id: UserId, // ユーザーID
+                name: String, // ユーザー名
+                email: String, // Emailアドレス
+                hashedPassword: String, // ハッシュ化されたパスワード
+                salt: String, // ハッシュ化するパスワードに添えるソルト(レインボー攻撃対策)
+                createdAt: LocalDateTime, // 作成日時
+                updatedAt: LocalDateTime) { // 最終更新日時
   def canEditBy(editorId: UserId): Boolean = this.id == editorId
 
   def passwordEquals(password: String)(implicit crypto: Crypto): Boolean = {

@@ -3,13 +3,13 @@ package models
 import java.time.LocalDateTime
 import utils.{IdGenerator, SystemDateTime}
 
-case class Task(id: TaskId,
-                name: String,
-                isFinished: Boolean,
-                userId: UserId,
-                deadline: Option[LocalDateTime],
-                createdAt: LocalDateTime,
-                updatedAt: LocalDateTime) {
+case class Task(id: TaskId, // タスクのID
+                name: String, // タスク名
+                isFinished: Boolean, // タスクが終了したかどうか
+                userId: UserId, // どのユーザーに属するか
+                deadline: Option[LocalDateTime], // タスクの期限 (任意)
+                createdAt: LocalDateTime, // 作成日時
+                updatedAt: LocalDateTime) { // 最終更新日時
   def canEditBy(editorId: UserId): Boolean = this.userId == editorId
 
   def updated(
