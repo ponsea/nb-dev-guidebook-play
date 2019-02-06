@@ -76,7 +76,7 @@ class TaskServiceSpec extends UnitSpec with GuiceOneAppPerSuite with Injecting {
   }
 
   "TaskService#create" must {
-    "create a Task" in {
+    "create a task and save it" in {
       val f = fixture(); import f._
       val creatorId = UserId("creator ID")
       val taskName = "task name"
@@ -92,7 +92,7 @@ class TaskServiceSpec extends UnitSpec with GuiceOneAppPerSuite with Injecting {
 
   "TaskService#update" when {
     "the task exists and the user updating it is permitted" must {
-      "update the task" in {
+      "update the task and save it" in {
         val f = fixture(); import f._
         val updaterId = task1.userId
         val newTaskName = "new task name"
