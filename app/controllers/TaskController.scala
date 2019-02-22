@@ -14,7 +14,6 @@ class TaskController @Inject()(taskService: TaskService,
                                authAction: AuthActionBuilder,
                                cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AbstractController(cc)
-    with UserWrites
     with TaskWrites
     with ServiceErrorWrites {
 
