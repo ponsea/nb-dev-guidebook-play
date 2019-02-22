@@ -4,7 +4,7 @@ import persistence._
 import utils._
 
 class Module extends AbstractModule {
-  def configure() = {
+  override def configure() = {
     bind(classOf[UserRepository]).to(classOf[UserRepositorySlickImpl])
     bind(classOf[TaskRepository]).to(classOf[TaskRepositorySlickImpl])
     bind(classOf[IdGenerator]).to(classOf[IdGeneratorImpl])
