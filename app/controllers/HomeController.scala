@@ -69,4 +69,9 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     val jsonBody: JsValue = request.body
     Ok(jsonBody)
   }
+
+  def error() = Action {
+    throw new Exception("error")
+    Ok("ok")
+  }
 }

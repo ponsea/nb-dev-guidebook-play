@@ -25,6 +25,8 @@ GET     /discard-session               controllers.HomeController.discardSession
 GET     /json-response                 controllers.HomeController.jsonResponse()
 POST    /json-request                  controllers.HomeController.jsonRequest()
 
+GET     /error-action                  controllers.HomeController.error()
+
 GET     /log                           controllers.ActionCompositionController.log()
 
 GET     /v1/tasks                      controllers.TaskController.index()
