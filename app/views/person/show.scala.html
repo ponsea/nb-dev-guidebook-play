@@ -1,0 +1,18 @@
+@(person: Person)(implicit flash: Flash)
+
+@main("Person閲覧") {
+  @flash.get("notice").map { notice =>
+    <p>@notice</p>
+  }
+  <article>
+    <h1>Person閲覧</h1>
+    <dl>
+      <dt>ID: </dt>
+      <dd>@person.id</dt>
+      <dt>名前: </dt>
+      <dd>@person.name</dt>
+      <dt>年齢: </dt>
+      <dd>@person.age</dd>
+    </dl>
+  </article>
+}

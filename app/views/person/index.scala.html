@@ -1,0 +1,13 @@
+@(people: Seq[Person])
+
+@main("People一覧") {
+  <article>
+    <h1>People一覧</h1>
+    <ul>
+      @for(person <- people) {
+        <li><a href="@routes.PersonController.show(person.id)">@person.name</a></li>
+      }
+    </ul>
+  </article>
+}
+

@@ -1,0 +1,16 @@
+@* MessagesRequestHeaderは、後のCSRFトークンフィールドやinput要素の生成に必要 *@
+@(personForm: Form[PersonCreatingInput])(implicit request: MessagesRequestHeader)
+
+@* form、inputTextなどの便利な部分テンプレートをインポート *@
+@import helper._
+@import views.MyHelpers._
+
+@main("Person作成") {
+  <h1>Person作成</h1>
+  @form(routes.PersonController.create()) { @* リバースルーティングを設定している *@
+    @CSRF.formField @* CSRFトークン。hidden要素として描画される。暗黙のパラメータとしてRequestHeaderが必要 *@
+    @inputText(personForm("name"), 'id -> "person_name", '_label -> "お名前", 'maxlength -> 255, '_help -> "一文字以上入力してください") @* nameフィールド。暗黙のパラメータとしてMessagesProviderが必要 *@
+    @inputText(personForm("age")) @* ageフィールド。暗黙のパラメータとしてMessagesProviderが必要 *@
+    <input type="submit" value="作成する">
+  }
+}

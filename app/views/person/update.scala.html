@@ -1,0 +1,13 @@
+@(personForm: Form[PersonCreatingInput])(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@main("Person更新") {
+  <h1>Person更新</h1>
+  @form(routes.PersonController.create()) {
+    @CSRF.formField
+    @inputText(personForm("name"))
+    @inputText(personForm("age"))
+    <input type="submit" value="更新する">
+  }
+}

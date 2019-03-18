@@ -1,0 +1,30 @@
+@(elements: helper.FieldElements)
+
+<style>
+.errors {
+  color: #f00;
+}
+.error-field {
+  border: solid 1px #f00;
+}
+.helps {
+  color: #00f;
+}
+</style>
+
+<div class="@if(elements.hasErrors) {error-field}">
+    <label for="@elements.id">@elements.label</label>
+    <div class="input">
+        @elements.input
+        <ul class="errors">
+          @elements.errors.map { error =>
+            <li>@error</li>
+          }
+        </ul>
+        <ul class="helps">
+          @elements.infos.map { info =>
+            <li>@info</li>
+          }
+        </ul>
+    </div>
+</div>
