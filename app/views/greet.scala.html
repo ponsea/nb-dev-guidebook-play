@@ -1,0 +1,10 @@
+@()(implicit messagesProvider: MessagesProvider)
+
+@main("greet") {
+  <ul>
+    <li>@Messages("common.hello", "ike")</li>
+    <li>@Messages("common.bye", "ike")</li>
+    <li>@Messages("common.jaOnly")</li>
+    <li>@Messages("common.nothingInMessagesFile")</li>
+  </ul>
+}

@@ -52,5 +52,7 @@ PATCH   /people/:id                    controllers.PersonController.update(id: L
 DELETE  /people/:id                    controllers.PersonController.delete(id: Long)
 GET     /people/:id/update             controllers.PersonController.updateForm(id: Long)
 
+GET     /greet                         controllers.I18nController.greet()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                  controllers.Assets.versioned(path="/public", file: Asset)

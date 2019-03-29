@@ -1,0 +1,2 @@
+common.hello = Hello, {0}.
+common.bye = Goodbye, {0}.

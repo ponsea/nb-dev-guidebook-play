@@ -1,0 +1,3 @@
+common.hello = こんにちは、{0}さん。
+common.bye = さようなら、{0}さん。
+common.jaOnly = 日本語のみ
